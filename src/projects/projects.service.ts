@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
+import { UpdateProjectDto } from './dto/update-project.dto';
 
 type Project = {
   id: number;
@@ -38,5 +39,13 @@ export class ProjectsService {
       return project;
     }
     throw new NotFoundException('there is no project with this id');
+  }
+
+  update(id: number, updateProjectDto: UpdateProjectDto): Project {
+    const project = this.findOne(id);
+    if (updateProjectDto.name !== undefined) {
+      project.name = updateProjectDto.name;
+    }
+    return project;
   }
 }
