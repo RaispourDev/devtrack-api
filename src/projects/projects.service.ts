@@ -48,4 +48,11 @@ export class ProjectsService {
     }
     return project;
   }
+
+  remove(id: number): Project {
+    const project = this.findOne(id);
+    const index = this.projects.findIndex((i) => i.id === id);
+    this.projects.splice(index, 1);
+    return project;
+  }
 }
