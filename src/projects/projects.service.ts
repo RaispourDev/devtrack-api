@@ -1,58 +1,45 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
-
-type Project = {
-  id: number;
-  name: string;
-};
-
 @Injectable()
 export class ProjectsService {
-  private readonly projects: Project[] = [
-    {
-      id: 1,
-      name: 'Learn NestJS',
-    },
-    {
-      id: 2,
-      name: 'DevTrack',
-    },
-  ];
-  findAll() {
-    return this.projects;
+  constructor(private readonly prisma: PrismaService) {}
+
+  async findAll() {
+    return this.prisma.project.findMany();
   }
 
-  create(createProjectDto: CreateProjectDto): Project {
-    const id = this.projects.length + 1;
-    const newProject: Project = {
-      id,
-      name: createProjectDto.name,
-    };
-    this.projects.push(newProject);
-    return newProject;
+  create(createProjectDto: CreateProjectDto) {
+    return this.prisma.project.create({
+      data: { name: createProjectDto.name },
+    });
   }
 
-  findOne(id: number): Project {
-    const project = this.projects.find((project) => project.id === id);
-    if (project) {
-      return project;
-    }
-    throw new NotFoundException('there is no project with this id');
-  }
-
-  update(id: number, updateProjectDto: UpdateProjectDto): Project {
-    const project = this.findOne(id);
-    if (updateProjectDto.name !== undefined) {
-      project.name = updateProjectDto.name;
+  async findOne(id: number) {
+    const project = await this.prisma.project.findUnique({ where: { id } });
+    if (!project) {
+      throw new NotFoundException('there is no project with this id');
     }
     return project;
   }
 
-  remove(id: number): Project {
-    const project = this.findOne(id);
-    const index = this.projects.findIndex((i) => i.id === id);
-    this.projects.splice(index, 1);
+  async update(id: number, updateProjectDto: UpdateProjectDto) {
+    await this.findOne(id);
+    return this.prisma.project.update({
+      where: {
+        id,
+      },
+      data: {
+        name: updateProjectDto.name,
+      },
+    });
+  }
+
+  async remove(id: number) {
+    const project = await this.findOne(id);
+    await this.prisma.project.delete({ where: { id } });
     return project;
   }
 }
