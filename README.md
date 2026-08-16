@@ -1,98 +1,188 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+بریم مرحله آخر: **README + cleanup نهایی**.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+برای README هدف اینه که هر کسی پروژه رو باز کرد، بدون خوندن کل کد بفهمه پروژه چیه، چطور اجرا می‌شه و چه APIهایی داره.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+یک `README.md` در ریشه پروژه بساز و این نسخه رو بذار داخلش:
 
-## Description
+````md
+# DevTrack API
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+DevTrack is a simple backend API for tracking developer projects, tasks, and learning sessions.
 
-## Project setup
+## Features
 
-```bash
-$ pnpm install
-```
+- Project CRUD
+- Task CRUD
+- Learning Session CRUD
+- Project summary
+- Weekly learning summary
+- Project details with relations
+- DTO validation
+- Error handling
+- Swagger API documentation
+- API versioning with `/api/v1`
+- SQLite database with Prisma
 
-## Compile and run the project
+## Tech Stack
 
-```bash
-# development
-$ pnpm run start
+- NestJS
+- TypeScript
+- Fastify
+- Prisma
+- SQLite
+- class-validator
+- Swagger
+- Jest
 
-# watch mode
-$ pnpm run start:dev
+## Installation
 
-# production mode
-$ pnpm run start:prod
-```
-
-## Run tests
+Install dependencies:
 
 ```bash
-# unit tests
-$ pnpm run test
+pnpm install
+```
+````
 
-# e2e tests
-$ pnpm run test:e2e
+## Environment Variables
 
-# test coverage
-$ pnpm run test:cov
+Create a `.env` file in the project root:
+
+```env
+PORT=3000
+DATABASE_URL="file:./dev.db"
 ```
 
-## Deployment
+## Database
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Apply Prisma migrations:
 
 ```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+pnpm exec prisma migrate dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Generate Prisma Client:
 
-## Resources
+```bash
+pnpm exec prisma generate
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+## Run the Project
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Development mode:
 
-## Support
+```bash
+pnpm run start:dev
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+The API will be available at:
 
-## Stay in touch
+```text
+http://localhost:3000/api/v1
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Swagger documentation:
 
-## License
+```text
+http://localhost:3000/api/docs
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+## Main API Routes
+
+### Projects
+
+```text
+GET    /api/v1/projects
+POST   /api/v1/projects
+GET    /api/v1/projects/:projectId
+PATCH  /api/v1/projects/:projectId
+DELETE /api/v1/projects/:projectId
+```
+
+### Tasks
+
+```text
+POST   /api/v1/projects/:projectId/tasks
+GET    /api/v1/projects/:projectId/tasks
+GET    /api/v1/projects/:projectId/tasks/:taskId
+PATCH  /api/v1/projects/:projectId/tasks/:taskId
+DELETE /api/v1/projects/:projectId/tasks/:taskId
+```
+
+### Learning Sessions
+
+```text
+POST   /api/v1/projects/:projectId/learning-sessions
+GET    /api/v1/projects/:projectId/learning-sessions
+GET    /api/v1/projects/:projectId/learning-sessions/:learningSessionId
+PATCH  /api/v1/projects/:projectId/learning-sessions/:learningSessionId
+DELETE /api/v1/projects/:projectId/learning-sessions/:learningSessionId
+```
+
+### Project Statistics
+
+```text
+GET /api/v1/projects/:projectId/summary
+GET /api/v1/projects/:projectId/weekly-summary
+GET /api/v1/projects/:projectId/details
+```
+
+## Validation
+
+The application uses NestJS `ValidationPipe` with:
+
+```text
+whitelist: true
+forbidNonWhitelisted: true
+transform: true
+```
+
+Invalid requests return appropriate `400 Bad Request` responses.
+
+Resources that do not exist return `404 Not Found`.
+
+## Tests
+
+Run tests:
+
+```bash
+pnpm test
+```
+
+TypeScript check:
+
+```bash
+pnpm exec tsc --noEmit
+```
+
+Lint:
+
+```bash
+pnpm run lint
+```
+
+## Project Structure
+
+```text
+src/
+├── projects/
+├── tasks/
+├── learning-sessions/
+├── prisma/
+├── generated/
+├── app.module.ts
+└── main.ts
+```
+
+## API Documentation
+
+Interactive API documentation is available through Swagger at:
+
+```text
+http://localhost:3000/api/docs
+```
+
+Swagger can also be used to test the API directly from the browser.
+
+```
+
+```
