@@ -7,17 +7,21 @@ import { PrismaService } from '../prisma/prisma.service';
 export class LearningSessionsService {
   constructor(private readonly prisma: PrismaService) {}
 
+  //helper
+  private async ensureProjectExists(projectId: number) {
+    const project = await this.prisma.project.findUnique({
+      where: { id: projectId },
+    });
+    if (!project) {
+      throw new NotFoundException('there is no project with this id');
+    }
+  }
+
   async create(
     projectId: number,
     createLearningSessionDto: CreateLearningSessionDto,
   ) {
-    const project = await this.prisma.project.findUnique({
-      where: { id: projectId },
-    });
-
-    if (!project) {
-      throw new NotFoundException('there is no project with this id');
-    }
+    await this.ensureProjectExists(projectId);
 
     return this.prisma.learningSession.create({
       data: {
@@ -29,13 +33,7 @@ export class LearningSessionsService {
   }
 
   async findAll(projectId: number) {
-    const project = await this.prisma.project.findUnique({
-      where: { id: projectId },
-    });
-
-    if (!project) {
-      throw new NotFoundException('there is no project with this id');
-    }
+    await this.ensureProjectExists(projectId);
 
     return this.prisma.learningSession.findMany({
       where: { projectId },
@@ -43,13 +41,7 @@ export class LearningSessionsService {
   }
 
   async findOne(projectId: number, learningSessionId: number) {
-    const project = await this.prisma.project.findUnique({
-      where: { id: projectId },
-    });
-
-    if (!project) {
-      throw new NotFoundException('there is no project with this id');
-    }
+    await this.ensureProjectExists(projectId);
 
     const learningSession = await this.prisma.learningSession.findFirst({
       where: {

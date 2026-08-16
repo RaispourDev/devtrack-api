@@ -1,8 +1,12 @@
+import { ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { IsBoolean, IsOptional } from 'class-validator';
 import { CreateTaskDto } from './create-task.dto';
-import { PartialType } from '@nestjs/mapped-types';
 
 export class UpdateTaskDto extends PartialType(CreateTaskDto) {
+  @ApiPropertyOptional({
+    example: true,
+    description: 'Whether the task is completed',
+  })
   @IsBoolean()
   @IsOptional()
   completed?: boolean;

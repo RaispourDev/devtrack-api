@@ -42,4 +42,22 @@ export class ProjectsController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.projectsService.remove(id);
   }
+
+  // toatl summary endpoint
+  @Get(':projectId/summary')
+  summary(@Param('projectId', ParseIntPipe) projectId: number) {
+    return this.projectsService.getSummary(projectId);
+  }
+
+  // weekly summary endpoint
+  @Get(':projectId/weekly-summary')
+  weeklySummary(@Param('projectId', ParseIntPipe) projectId: number) {
+    return this.projectsService.getWeeklySummary(projectId);
+  }
+
+  // getting detail of a project
+  @Get(':projectId/details')
+  getDetails(@Param('projectId', ParseIntPipe) projectId: number) {
+    return this.projectsService.getDetails(projectId);
+  }
 }

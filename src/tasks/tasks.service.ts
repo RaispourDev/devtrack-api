@@ -7,13 +7,18 @@ import { UpdateTaskDto } from './dto/update-task-dto';
 export class TasksService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(projectId: number, createTaskDto: CreateTaskDto) {
+  //helper
+  private async ensureProjectExists(projectId: number) {
     const project = await this.prisma.project.findUnique({
       where: { id: projectId },
     });
     if (!project) {
       throw new NotFoundException('there is no project with this id');
     }
+  }
+
+  async create(projectId: number, createTaskDto: CreateTaskDto) {
+    await this.ensureProjectExists(projectId);
     return this.prisma.task.create({
       data: {
         projectId,
@@ -23,24 +28,14 @@ export class TasksService {
   }
 
   async findAll(projectId: number) {
-    const project = await this.prisma.project.findUnique({
-      where: { id: projectId },
-    });
-    if (!project) {
-      throw new NotFoundException('there is no project with this id');
-    }
+    await this.ensureProjectExists(projectId);
     return this.prisma.task.findMany({
       where: { projectId },
     });
   }
 
   async findOne(projectId: number, taskId: number) {
-    const project = await this.prisma.project.findUnique({
-      where: { id: projectId },
-    });
-    if (!project) {
-      throw new NotFoundException('there is no project with this id');
-    }
+    await this.ensureProjectExists(projectId);
 
     const task = await this.prisma.task.findFirst({
       where: { id: taskId, projectId },
@@ -54,8 +49,8 @@ export class TasksService {
   }
 
   async update(
-    taskId: number,
     projectId: number,
+    taskId: number,
     updateTaskDto: UpdateTaskDto,
   ) {
     await this.findOne(projectId, taskId);
