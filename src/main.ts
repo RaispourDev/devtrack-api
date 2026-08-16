@@ -12,6 +12,9 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter(),
   );
+  // versioning
+  app.setGlobalPrefix('api/v1');
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -29,7 +32,7 @@ async function bootstrap() {
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
 
-  SwaggerModule.setup('api', app, documentFactory);
+  SwaggerModule.setup('api/docs', app, documentFactory);
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap().catch((error) => {
